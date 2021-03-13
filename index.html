@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Rendering Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+  </head>
+  <body onclick="detectScope()">
+    <script>
+      function detectScope() {
+        
+        var scope = $("#scopeSlider").val();
+        var output = $(".output");
+
+        var img = $(".scopeImg");
+
+        if(scope == '1') {
+          output.html("Small")
+          img.attr("src", "./small.jpeg");
+        }
+        if(scope == '2') {
+          output.html("Medium")
+          img.attr("src", "./medium.jpeg");
+        }
+        if(scope == '3') {
+          output.html("Large")
+          img.attr("src", "./large.jpeg");
+        }
+      }
+    </script>
+    <style>
+      .scopeImg {
+        height: 25%;
+      }
+      .details {
+        display: flex;
+      }
+      .quantity {
+        width: 10%;
+        margin-left: 9%;
+        text-align: center;
+      }
+      .quantityContainer {
+        margin-right: -10%;
+      }
+      </style>
+    <div class="mainContainer">
+      <div class="scope">
+        <h3>Project scope: </h3>
+        <p class="output">Small</p>
+        <input type="range" id="scopeSlider" min="1" max="3" value="1">
+        <div class="scopeImgContainer">
+          <p>Sample image: </p>
+          <img src="./small.jpeg" class="scopeImg">
+        </div>
+      </div>
+      <div class="type">
+        <p>Interior or Exterior?</p>
+        <select name="interiorExterior" id="interiorExterior">
+          <option value="interior">Interior</option>
+          <option value="exterior">Exterior</option>
+        </select>
+        <p>Image or Animation?</p>
+        <select name="imgAnimation" id="imgAnimation">
+          <option value="img">Image</option>
+          <option value="animation">Animation</option>
+        </select>
+      </div>
+      <div class="details">
+        <div class="quantityContainer">
+          <p>Quantity: </p>
+          <input type="text" name="quantity" id="quantity" class="quantity">
+        </div>
+        <div class="resContainer">
+          <p>Resolution: </p>
+          <select name="res" id="res">
+            <option value="standard">Standard Resolution (1920x1080)</option>
+            <option value="standard">Print Resolution (3000x1687)</option>
+            <option value="standard">Billboard Resolution (4000x2250)</option>
+          </select>
+        </div>
+        <div class="timelineContainer">
+          <p>Timeline: </p>
+          <select name="timeline" id="timeline">
+            <option value="standart">Standard (10-15 days)</option>
+            <option value="notUrgent">Not Urgent (30-60 days)</option>
+          </select>
+        </div>
+      </div>
+      <br><br>
+      <button class="calculate">Calculate</button>
+    </div>
+  </body>
+</html>
