@@ -3,36 +3,89 @@
   <head>
     <meta charset="utf-8">
     <title>Rendering Calculator</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
   </head>
-  <body onclick="detectScope()">
+  <body onclick="detectInfo()">
     <script>
-      function detectScope() {
-        
-        var scope = $("#scopeSlider").val();
+      let minPrice=0, maxPrice=0, type, scope, size;
+
+      function countPrice() {
+        console.log("Counting...");
+      }
+
+      function detectInfo() {
+        let img = $(".img");
+        type = $("#interiorExterior").val();
+        let smallImg, largeImg, mediumImg;
+        scope = $("#scopeSlider").val();
         var output = $(".output");
 
-        var img = $(".scopeImg");
+        smallImg = {
+          interior: "https://static.wixstatic.com/media/d4b7a7_7e317ca9ef324c6a8af864ab4f78f9fb~mv2_d_1454_2000_s_2.jpg", 
+          exterior: "https://static.wixstatic.com/media/d4b7a7_9150c8fc542e4787b315f24448504e54~mv2_d_5000_2813_s_4_2.jpg"
+        };
+        mediumImg = {
+          interior: "https://static.wixstatic.com/media/d4b7a7_85b820387fe046d6a2c8ce64d4fd1670~mv2.jpg",
+          exterior: "https://static.wixstatic.com/media/d4b7a7_1c318130a3a14a50a3ce6289002c4758~mv2.jpg"
+        };
+        largeImg = {
+          interior: "https://static.wixstatic.com/media/d4b7a7_e0e378ca802c43aa8456bcc066993dde~mv2.jpg",
+          exterior: "https://static.wixstatic.com/media/d4b7a7_24c5ec32339746cd9d80ca4dc1ee4afe~mv2.jpg"
+        };
 
-        if(scope == '1') {
-          output.html("Small")
-          img.attr("src", "./small.jpeg");
+        if(type == "interior") {
+          if(scope == '1') {
+            output.html("Small")
+            img.attr("src", smallImg.interior).css("margin-left", "17%");
+            size="small";
+          }
+          if(scope == '2') {
+            output.html("Medium")
+            img.attr("src", mediumImg.interior).css("margin-left", "0");
+            size="medium";
+          }
+          if(scope == '3') {
+            output.html("Large")
+            img.attr("src", largeImg.interior).css("margin-left", "0");
+            size="large";
+          }
         }
-        if(scope == '2') {
-          output.html("Medium")
-          img.attr("src", "./medium.jpeg");
-        }
-        if(scope == '3') {
-          output.html("Large")
-          img.attr("src", "./large.jpeg");
+        else {
+          if(scope == '1') {
+            output.html("Small")
+            img.attr("src", smallImg.exterior).css("margin-left", "0");
+            size="small";
+          }
+          if(scope == '2') {
+            output.html("Medium")
+            img.attr("src", mediumImg.exterior).css("margin-left", "0");
+            size="medium";
+          }
+          if(scope == '3') {
+            output.html("Large")
+            img.attr("src", largeImg.exterior).css("margin-left", "0");
+            size="large";
+          }
         }
       }
     </script>
     <style>
-      .scopeImg {
-        height: 25%;
+      html, body { 
+        height: 100%;
+        width: 98.5%; 
+        margin: 0; 
+        font-family: 'Open Sans', sans-serif;
       }
-      .details {
+      div { 
+        height: 100%; 
+        width: 100%;
+      }
+      .img {
+        height: 60%;
+      }
+      .detailsContainer {
         display: flex;
       }
       .quantity {
@@ -40,51 +93,104 @@
         margin-left: 9%;
         text-align: center;
       }
+      .label {
+        font-size: 70px;
+      }
+      .mainContainer {
+        margin-left: 5%;
+      }
+      .info {
+        font-size: 45px;
+      }
+      .mainInfo select {
+        font-size: 33px;
+        height: 5%;
+        width: 25%;
+        border: solid 1.5% black;
+        background-color: white;
+      }
+      .details select {
+        font-size: 33px;
+        height: 5%;
+        border: solid 1.5% black;
+        background-color: white;
+      }
+      .mainInfo input[type=range]{
+        width: 25%;
+      }
+      .output {
+        font-size: 43px;
+      }
+      .scopeImgContainer {
+        align-items: center;
+        position: absolute;
+        top: 27.5%;
+        left: 38.5%;
+      }
+      .type {
+        position: absolute;
+        top: 65%;
+        left: 5%;
+      }
+      .details {
+        position: relative;
+        top: -10%;
+      }
+      input[type=text] {
+        height: 5%;
+        font-size: 33px;
+      }
       .quantityContainer {
-        margin-right: -10%;
+        margin-right: -12.5%;
       }
       </style>
     <div class="mainContainer">
-      <div class="scope">
-        <h3>Project scope: </h3>
-        <p class="output">Small</p>
-        <input type="range" id="scopeSlider" min="1" max="3" value="1">
-        <div class="scopeImgContainer">
-          <p>Sample image: </p>
-          <img src="./small.jpeg" class="scopeImg">
+      <div class="mainInfo">
+        <h1 class="label">Main info: </h1>
+        <p class="info">Interior or Exterior?</p>
+          <select name="interiorExterior" id="interiorExterior">
+            <option value="interior">Interior</option>
+            <option value="exterior">Exterior</option>
+          </select>
+        <div class="scope">
+          <p class="info">Project scope: </p>
+          <p class="output">Small</p>
+          <input type="range" id="scopeSlider" min="1" max="3" value="1">
+          <div class="scopeImgContainer">
+            <img src="https://static.wixstatic.com/media/d4b7a7_7e317ca9ef324c6a8af864ab4f78f9fb~mv2_d_1454_2000_s_2.jpg" style="margin-left: 15%;" alt="Image Preview" class="img">
+          </div>
         </div>
-      </div>
-      <div class="type">
-        <p>Interior or Exterior?</p>
-        <select name="interiorExterior" id="interiorExterior">
-          <option value="interior">Interior</option>
-          <option value="exterior">Exterior</option>
-        </select>
-        <p>Image or Animation?</p>
-        <select name="imgAnimation" id="imgAnimation">
-          <option value="img">Image</option>
-          <option value="animation">Animation</option>
-        </select>
+        <div class="type">
+          <p class="info">Image or Animation?</p>
+          <select name="imgAnimation" id="imgAnimation">
+            <option value="img">Image</option>
+            <option value="animation">Animation</option>
+            <option value="panorama">Panorama 360</option>
+          </select>
+        </div>
       </div>
       <div class="details">
-        <div class="quantityContainer">
-          <p>Quantity: </p>
-          <input type="text" name="quantity" id="quantity" class="quantity">
-        </div>
-        <div class="resContainer">
-          <p>Resolution: </p>
-          <select name="res" id="res">
-            <option value="standard">Standard Resolution (1920x1080)</option>
-            <option value="standard">Print Resolution (3000x1687)</option>
-            <option value="standard">Billboard Resolution (4000x2250)</option>
-          </select>
-        </div>
-        <div class="timelineContainer">
-          <p>Timeline: </p>
-          <select name="timeline" id="timeline">
-            <option value="standart">Standard (10-15 days)</option>
-            <option value="notUrgent">Not Urgent (30-60 days)</option>
-          </select>
+        <h1 class="label">Details: </h1>    
+        <div class="detailsContainer">
+          <div class="quantityContainer">
+            <p class="info">Quantity: </p>
+            <input type="text" name="quantity" value="1" id="quantity" class="quantity">
+          </div>
+          <div class="resContainer">
+            <p class="info">Resolution: </p>
+            <select name="res" id="res">
+              <option value="standard">Standard Resolution (1920x1080)</option>
+              <option value="standard">Print Resolution (3000x1687)</option>
+              <option value="standard">Billboard Resolution (4000x2250)</option>
+            </select>
+          </div>
+          <div class="timelineContainer">
+            <p class="info">Timeline: </p>
+            <select name="timeline" id="timeline">
+              <option value="standart">Standard (10-15 days)</option>
+              <option value="notUrgent">Not Urgent (30-60 days)</option>
+            </select>
+          </div>
         </div>
       </div>
       <br><br>
