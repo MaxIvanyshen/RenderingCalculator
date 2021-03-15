@@ -9,31 +9,117 @@
   </head>
   <body onclick="detectInfo()">
     <script>
-      let minPrice=0, maxPrice=0, type, scope, size;
+      let minPrice=100, maxPrice=150, res, quantity, type, scope, imageOrAnimation, timeline;
+      let smallImg, largeImg, mediumImg;
 
-      function countPrice() {
-        console.log("Counting...");
+      smallImg = {
+        interior: "https://static.wixstatic.com/media/d4b7a7_7e317ca9ef324c6a8af864ab4f78f9fb~mv2_d_1454_2000_s_2.jpg", 
+        exterior: "https://static.wixstatic.com/media/d4b7a7_9150c8fc542e4787b315f24448504e54~mv2_d_5000_2813_s_4_2.jpg"
+      };
+      mediumImg = {
+        interior: "https://static.wixstatic.com/media/d4b7a7_85b820387fe046d6a2c8ce64d4fd1670~mv2.jpg",
+        exterior: "https://static.wixstatic.com/media/d4b7a7_1c318130a3a14a50a3ce6289002c4758~mv2.jpg"
+      };
+      largeImg = {
+        interior: "https://static.wixstatic.com/media/d4b7a7_e0e378ca802c43aa8456bcc066993dde~mv2.jpg",
+        exterior: "https://static.wixstatic.com/media/d4b7a7_24c5ec32339746cd9d80ca4dc1ee4afe~mv2.jpg"
+      };
+
+      function fillTable() {
+        sampleImg = $("#sampleImg").css("width", "40%");
+        if(type == 'interior') {
+          sampleImg.attr("src", smallImg.interior);
+          minPrice = 100, maxPrice = 150;
+          if(scope == '2') {
+            minPrice*=1.65;
+            maxPrice*=1.65;
+            sampleImg.attr("src", mediumImg.interior).css("width", "70%");
+          }
+          if(scope == '3') {
+            minPrice*=1.85;
+            maxPrice*=1.85;
+            sampleImg.attr("src", largeImg.interior).css("width", "70%");
+          }
+          if(imageOrAnimation=="panorama") {
+            minPrice*=2.2;
+            maxPrice*=2.2;
+          }
+          if(imageOrAnimation=="animation") {
+            minPrice+=150;
+            maxPrice+=150;
+          }
+          if(res=="print") {
+            minPrice*=1.2;
+            maxPrice*=1.2;
+          }
+          if(res=="billboard") {
+            minPrice*=1.65;
+            maxPrice*=1.65;
+          }
+          if(timeline=="notUrgent") {
+            minPrice*=0.8;
+            maxPrice*=0.8;
+          }
+        }
+        if(type == 'exterior') {
+          sampleImg.attr("src", smallImg.exterior).css("width", "70%");
+          minPrice = 180, maxPrice = 220;
+          if(scope == '2') {
+            minPrice*=1.5;
+            maxPrice*=1.5;
+            sampleImg.attr("src", meduimImg.exterior).css("width", "70%");
+          }
+          if(scope == '3') {
+            minPrice*=1.75;
+            maxPrice*=1.75;
+            sampleImg.attr("src", largeImg.exterior).css("width", "70%");
+          }
+          if(imageOrAnimation=="animation") {
+            minPrice+=150;
+            maxPrice+=150;
+          }
+          if(res=='print') {
+            minPrice*=1.1;
+            maxPrice*=1.1;
+          }
+          if(res=='builboard') {
+            minPrice*=1.5;
+            maxPrice*=1.5;
+          }
+          if(timeline=="notUrgent") {
+            minPrice*=0.9;
+            maxPrice*=0.9;
+          }
+        }
+        minPrice*=quantity;
+        maxPrice*=quantity;
+        if(imageOrAnimation=="animation") {
+          $(".totalPrice").html("$"+Math.floor(minPrice, 0)+"-"+Math.floor(maxPrice, 0)+" for 5 seconds");
+        } else {
+          $(".totalPrice").html("$"+Math.floor(minPrice, 0)+"-"+Math.floor(maxPrice, 0));
+        }
+        let scopeString;
+        if(scope=='1') {scopeString="Small"};
+        if(scope=='2') {scopeString="Medium"};
+        if(scope=='3') {scopeString="Large"};
+        $('.scope').html("Scope: "+scopeString);
+        $(".type").html("Type: "+type.charAt(0).toUpperCase()+type.slice(1));
+        if(imageOrAnimation=="img") {
+          $(".imageOrAnimation").html("Vizualise As: Image");
+        } else {
+          $(".imageOrAnimation").html("Vizualise As: "+imageOrAnimation.charAt(0).toUpperCase()+imageOrAnimation.slice(1));
+        }
+        $(".quantityParam").html("Quantity: "+quantity);
+        $(".resParam").html("Resolution: "+res.charAt(0).toUpperCase()+res.slice(1));
+        $(".timelineParam").html("Timeline: "+timeline.charAt(0).toUpperCase()+timeline.slice(1));
+        $(".table").css("visibility", "visible");
       }
 
       function detectInfo() {
         let img = $(".img");
         type = $("#interiorExterior").val();
-        let smallImg, largeImg, mediumImg;
         scope = $("#scopeSlider").val();
         var output = $(".output");
-
-        smallImg = {
-          interior: "https://static.wixstatic.com/media/d4b7a7_7e317ca9ef324c6a8af864ab4f78f9fb~mv2_d_1454_2000_s_2.jpg", 
-          exterior: "https://static.wixstatic.com/media/d4b7a7_9150c8fc542e4787b315f24448504e54~mv2_d_5000_2813_s_4_2.jpg"
-        };
-        mediumImg = {
-          interior: "https://static.wixstatic.com/media/d4b7a7_85b820387fe046d6a2c8ce64d4fd1670~mv2.jpg",
-          exterior: "https://static.wixstatic.com/media/d4b7a7_1c318130a3a14a50a3ce6289002c4758~mv2.jpg"
-        };
-        largeImg = {
-          interior: "https://static.wixstatic.com/media/d4b7a7_e0e378ca802c43aa8456bcc066993dde~mv2.jpg",
-          exterior: "https://static.wixstatic.com/media/d4b7a7_24c5ec32339746cd9d80ca4dc1ee4afe~mv2.jpg"
-        };
 
         if(type == "interior") {
           if(scope == '1') {
@@ -51,6 +137,7 @@
             img.attr("src", largeImg.interior).css("margin-left", "0");
             size="large";
           }
+          $(".panoramaOption").attr('disabled', false);
         }
         else {
           if(scope == '1') {
@@ -68,10 +155,42 @@
             img.attr("src", largeImg.exterior).css("margin-left", "0");
             size="large";
           }
+          $(".panoramaOption").attr('disabled', 'disabled');
         }
+        imageOrAnimation = $('#imgAnimation').val();
+        res = $("#res").val();
+        timeline = $("#timeline").val();
+        quantity = $(".quantity").val();
       }
     </script>
     <style>
+      .table p {
+        font-size: 40px;
+        text-align: center;
+      }
+      .table td, .table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      .sample {
+        width: 40%;
+      }
+
+      .totalPrice {
+        text-align: center;
+        font-size: 50px;
+      }
+
+      .table tr:nth-child(even){background-color: #f2f2f2;}
+
+      .table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: rgb(76,124,4);
+        color: white;
+      }
       html, body { 
         height: 100%;
         width: 98.5%; 
@@ -115,9 +234,6 @@
         border: solid 1.5% black;
         background-color: white;
       }
-      .mainInfo input[type=range]{
-        width: 25%;
-      }
       .output {
         font-size: 43px;
       }
@@ -127,7 +243,7 @@
         top: 27.5%;
         left: 38.5%;
       }
-      .type {
+      .typeContainer {
         position: absolute;
         top: 65%;
         left: 5%;
@@ -143,29 +259,63 @@
       .quantityContainer {
         margin-right: -12.5%;
       }
+      .table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .tableContainer {
+        position: relative;
+        top: -50%;
+        left: -3.5%;
+        visibility: hidden;
+      }
+      .table th {
+        font-size: 45px;
+      }
+      #scopeSlider {
+        width: 25%;
+        position: relative;
+        top: -2.5%;
+      }
+      .calculate {
+        position: relative;
+        top: -60%;
+        left: 75%;
+        font-size: 73px;
+        background-color: rgb(76,124,4);
+        border: solid 3px black;
+        color: white;
+      }
+      .sampleImgContainer {
+        width: 30%;
+        text-align:  center;
+      }
+      .mainInfoTable {
+        width: 25%;
+      }
       </style>
     <div class="mainContainer">
       <div class="mainInfo">
         <h1 class="label">Main info: </h1>
-        <p class="info">Interior or Exterior?</p>
+          <p class="info">Interior or Exterior?</p>
           <select name="interiorExterior" id="interiorExterior">
             <option value="interior">Interior</option>
             <option value="exterior">Exterior</option>
           </select>
-        <div class="scope">
+        <div class="scopeContainer">
           <p class="info">Project scope: </p>
           <p class="output">Small</p>
-          <input type="range" id="scopeSlider" min="1" max="3" value="1">
+          <input type="range" id="scopeSlider" min="1" max="3" value="1"> 
           <div class="scopeImgContainer">
-            <img src="https://static.wixstatic.com/media/d4b7a7_7e317ca9ef324c6a8af864ab4f78f9fb~mv2_d_1454_2000_s_2.jpg" style="margin-left: 15%;" alt="Image Preview" class="img">
+            <img src="https://static.wixstatic.com/media/d4b7a7_7e317ca9ef324c6a8af864ab4f78f9fb~mv2_d_1454_2000_s_2.jpg" style="margin-left: 17%;" alt="Image Preview" class="img">
           </div>
         </div>
-        <div class="type">
+        <div class="typeContainer">
           <p class="info">Image or Animation?</p>
           <select name="imgAnimation" id="imgAnimation">
             <option value="img">Image</option>
             <option value="animation">Animation</option>
-            <option value="panorama">Panorama 360</option>
+            <option class="panoramaOption" value="panorama">Panorama 360°</option>
           </select>
         </div>
       </div>
@@ -180,21 +330,48 @@
             <p class="info">Resolution: </p>
             <select name="res" id="res">
               <option value="standard">Standard Resolution (1920x1080)</option>
-              <option value="standard">Print Resolution (3000x1687)</option>
-              <option value="standard">Billboard Resolution (4000x2250)</option>
+              <option value="print">Print Resolution (3000x1687)</option>
+              <option value="billboard">Billboard Resolution (4000x2250)</option>
             </select>
           </div>
           <div class="timelineContainer">
             <p class="info">Timeline: </p>
             <select name="timeline" id="timeline">
-              <option value="standart">Standard (10-15 days)</option>
+              <option value="standard">Standard (10-15 days)</option>
               <option value="notUrgent">Not Urgent (30-60 days)</option>
             </select>
           </div>
         </div>
+
+      </div>
+      <button class="calculate" onclick="fillTable()">Calculate</button>
+      <div class="tableContainer">
+        <table class="table">
+          <tr>
+            <th>Sample image</th>
+            <th>Main info</th>
+            <th>Details</th>
+            <th>Total</th>
+          </tr>
+          <tr>
+            <td class="sampleImgContainer"><img id="sampleImg" class="sample"></td>
+            <td>
+              <p class="scope"></p>
+              <p class="type"></p>
+              <p class="imageOrAnimation"></p>
+            </td>
+            <td class="mainInfoTable">
+              <p class="quantityParam"></p>
+              <p class="resParam"></p>
+              <p class="timelineParam"></p>
+            </td>
+            <td>
+              <p class="totalPrice"></p>
+            </td>
+          </tr>
+        </table>
       </div>
       <br><br>
-      <button class="calculate">Calculate</button>
     </div>
   </body>
 </html>
