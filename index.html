@@ -67,7 +67,7 @@
           if(scope == '2') {
             minPrice*=1.5;
             maxPrice*=1.5;
-            sampleImg.attr("src", meduimImg.exterior).css("width", "70%");
+            sampleImg.attr("src", mediumImg.exterior).css("width", "70%");
           }
           if(scope == '3') {
             minPrice*=1.75;
@@ -111,7 +111,12 @@
         }
         $(".quantityParam").html("Quantity: "+quantity);
         $(".resParam").html("Resolution: "+res.charAt(0).toUpperCase()+res.slice(1));
-        $(".timelineParam").html("Timeline: "+timeline.charAt(0).toUpperCase()+timeline.slice(1));
+        if(timeline == "notUrgent") {
+          $(".timelineParam").html("Timeline: Not Urgent");
+        }
+        else {
+          $(".timelineParam").html("Timeline: "+timeline.charAt(0).toUpperCase()+timeline.slice(1));
+        }
         $(".table").css("visibility", "visible");
       }
 
