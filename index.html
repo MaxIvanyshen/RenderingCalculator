@@ -82,7 +82,7 @@
             minPrice*=1.1;
             maxPrice*=1.1;
           }
-          if(res=='builboard') {
+          if(res=='billboard') {
             minPrice*=1.5;
             maxPrice*=1.5;
           }
@@ -105,9 +105,9 @@
         $('.scope').html("Scope: "+scopeString);
         $(".type").html("Type: "+type.charAt(0).toUpperCase()+type.slice(1));
         if(imageOrAnimation=="img") {
-          $(".imageOrAnimation").html("Vizualise As: Image");
+          $(".imageOrAnimation").html("Visualize As: Image");
         } else {
-          $(".imageOrAnimation").html("Vizualise As: "+imageOrAnimation.charAt(0).toUpperCase()+imageOrAnimation.slice(1));
+          $(".imageOrAnimation").html("Visualize As: "+imageOrAnimation.charAt(0).toUpperCase()+imageOrAnimation.slice(1));
         }
         $(".quantityParam").html("Quantity: "+quantity);
         $(".resParam").html("Resolution: "+res.charAt(0).toUpperCase()+res.slice(1));
